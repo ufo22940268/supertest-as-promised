@@ -19,7 +19,7 @@ function makeModule(Promise) {
     return new Promise(function (resolve, reject) {
       self.end(function (err, res) {
         if (err) {
-          err.message = err.message + '\n' + removeText(res.text);
+          err.message = err.message + '\n' + removeTags(res.text);
           reject(err);
           return;
         }
