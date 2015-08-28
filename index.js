@@ -5,6 +5,10 @@ var methods = require("methods")
 // Support SuperTest's historical `del` alias for `delete`
 methods = methods.concat("del");
 
+function removeTags(text) {
+  return text.replace(/<.+>/g, '');
+}
+
 // Generate a SuperTest as Promised module that returns promise
 // instances using the provided `Promise` constructor.
 function makeModule(Promise) {
@@ -15,6 +19,7 @@ function makeModule(Promise) {
     return new Promise(function (resolve, reject) {
       self.end(function (err, res) {
         if (err) {
+          err.message = err.message + '\n' + removeText(res.text);
           reject(err);
           return;
         }
